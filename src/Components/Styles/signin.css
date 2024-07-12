@@ -1,0 +1,116 @@
+.content-wrapper{
+    background: white;
+}
+
+.sign-in-wrapper {
+    /* background-color: red; */
+    max-width: 400px;
+    margin: auto;
+}
+.sign-in-header > h1 {
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+}
+.sign-in-header > p {
+    font-family: var(--second-font);
+    font-weight: 400;
+}
+.sign-in-form-wrapper {
+    border-radius: 1rem;
+}
+.sign-in-input { 
+    border-radius: 0.5rem;
+}
+.sign-in-label {
+    color: #000000;
+    font-family: var(--second-font);
+    font-weight: 400;
+}
+.sign-in-input > input {
+    width: 100%;
+    border-radius: inherit;
+    background-color: #f5f5f5;
+    padding-left: 1rem;
+    font-weight: 400;
+    font-family: var(--second-font);
+}
+.sign-in-input > input:focus {
+    background-color: #eaeaea;
+}
+.forgot-password {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+.forgot-password > a { 
+    color: #346BD4;
+    font-weight: 400;
+    font-family: var(--second-font);
+}
+
+.sign-in-btn {
+    width: 100%;
+    background-color: #346BD4;
+    border-radius: 0.5rem;
+    font-weight: 700;
+}
+
+.sign-up-link {
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+}
+.sign-up-link > p {
+    color: #858585;
+    font-family: var(--second-font);
+    font-weight: 400;
+}
+.sign-up-link > a {
+    color: #346BD4;
+    margin-left: 2px;
+    font-family: var(--second-font);
+    font-weight: 400;
+}
+@media screen and (max-width:850px){
+    .sign-in-panel {
+        max-width : 300px ;
+    }
+    .sign-in-header {
+        margin-top: 0.4rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        color: #ffffff;
+    }
+    .sign-in-form-wrapper::before{
+        position:relative ;
+    }
+    .g-sign-in-wrapper {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+    .g-sign-in-wrapper > button {
+        margin-bottom: 0.5rem;
+        padding-left: 0rem !important;
+        padding-right: 0rem !important;
+        border-radius: 2rem !important;
+        box-shadow: none !important;
+    }
+    .g-sign-in-wrapper > button :first-child{
+        border-radius: 40% !important;
+        margin-right: 1px !important;
+    }
+    .g-sign-in-wrapper span {
+        color: #949494 !important;
+        font-size: 0.5rem;
+        font-weight: 400;
+    }
+    .sign-up-link{
+        margin-top: 0.4rem;
+    }
+    .sign-up-link p{
+        color: #ffffff;
+    }
+    .sign-up-link > a{
+        color: rgb(216, 216, 77) !important;
+    }
+}
