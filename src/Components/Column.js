@@ -40,7 +40,7 @@ function Column(props) {
         <div className="flex items-center">
           <div className="delete-column mr-6">
             <button type="button" onClick={handleShowMore}>
-              <FontAwesomeIcon icon={faEllipsisVertical} rotation={90} />
+              <FontAwesomeIcon color="gray" icon={faEllipsisVertical} rotation={90} />
             </button>
             {showDeleteModal && (
               <div>
@@ -53,7 +53,7 @@ function Column(props) {
 
           <div className="add-task">
             <button type="button" onClick={handleAddTask}>
-              <FontAwesomeIcon icon={faPlus} />
+              <FontAwesomeIcon color="gray" icon={faPlus} />
             </button>
             {showAddTaskModal && (
               <div>
@@ -70,24 +70,24 @@ function Column(props) {
         {props.singleColumn.tasks.map((singleTask, index) => (
           <div
             key={index}
-            className="flex flex-col gap-2 bg-white m-2 border-solid border-2 rounded-md border-grey p-2 "
+            className="flex flex-col gap-x-2 gap-y-1 my-2 bg-white border-solid border-2 rounded-md border-grey p-2 "
           >
             <div className="flex justify-between items-center">
-              <div className="flex items-center gap-2 text-xs text-gray-400">
+              <div className="flex items-center gap-x-2 text-xs text-gray-600">
                 <p>#8735</p>
-                <FontAwesomeIcon icon={faCircle} color="gray" fontSize={5} />
+                <FontAwesomeIcon icon={faCircle} color="gray" fontSize={3} />
                 <p>3 Jan, 4.35 PM</p>
               </div>
               <div>
                 <FontAwesomeIcon icon={faStar} fontSize={15} />
               </div>
             </div>
-            <div className="font-semibold text-base max-w-xs">
+            <div className="font-semibold text-base max-w-xs mb-2">
               {singleTask.title}
             </div>
             <div className="flex justify-between gap-2 ">
               <div className="flex gap-2 ">
-                <div className="flex justify-start rounded-full bg-red-500 px-3 py-1 text-white text-xs font-semibold">
+                <div className="flex justify-start rounded-full bg-red-500 px-2 py-0.5 text-white text-xs font-semibold">
                   <div>Critical</div>
                 </div>
                 <div className="flex items-center gap-2 justify-start rounded-full bg-cyan-200 px-3 py-1 text-white text-xs font-semibold">
