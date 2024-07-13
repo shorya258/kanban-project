@@ -1,24 +1,21 @@
 import React, { useState } from "react";
-import boardsSlice from "../redux/boardSlice";
+import columnsSlice from "../redux/columnSlice";
 import { useDispatch } from "react-redux";
-function Form() {
+function Form(props) {
 
   const dispatch = useDispatch();
-  
   const [newTask, setNewTask] = useState({
-    taskName: "",
-    taskDescription: "",
-    status: "Todo",
-    newColIndex: 0,
+    title: "",
+    description: "",
+    status: props.colName,
+    newColIndex: props.colIndex,
   });
   const onChange = (e) => {
     setNewTask({ ...newTask, [e.target.name]: e.target.value });
   };
   const onSubmitForm = (e) => {
-    console.log(e);
     e.preventDefault();
-    console.log("added task");
-    dispatch(boardsSlice.actions.addTask(newTask, "ADD"));
+    dispatch(columnsSlice.actions.addTask(newTask));
   };
   return (
     <div>
@@ -28,9 +25,9 @@ function Form() {
         </div>
         <div>
           <input
-            name="taskName"
+            name="title"
             type="text"
-            value={newTask.taskName}
+            value={newTask.title}
             onChange={onChange}
             placeholder="task name"
           />
@@ -40,9 +37,9 @@ function Form() {
         </div>
         <div>
           <input
-            name="taskDescription"
+            name="description"
             type="text"
-            value={newTask.taskDescription}
+            value={newTask.description}
             onChange={onChange}
             placeholder="Add a description"
           />

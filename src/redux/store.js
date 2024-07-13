@@ -1,8 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
-import boardsSlice from "./boardSlice";
+import columnsSlice from "./columnSlice";
 const store = configureStore({
   reducer: {
-    boards: boardsSlice.reducer,
+    columns: columnsSlice.reducer,
   },
 });
 export default store;

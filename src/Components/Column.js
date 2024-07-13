@@ -8,12 +8,10 @@ function Column(props) {
   const [showAddTaskModal, toggleShowAddTaskModal] = useState(false);
   const handleShowMore = () => {
     toggleShowDeleteModal(true);
-    console.log("show more button clicked");
   };
   
   const handleAddTask = () => {
     toggleShowAddTaskModal(true);
-    // console.log("added new task");
   };
    
   const deleteColumn = ()=>{
@@ -41,7 +39,7 @@ function Column(props) {
             </button>
             {showAddTaskModal &&
              <div> 
-              <Form/>
+              <Form colIndex={props.colIndex} colName={props.singleColumn.name} />
               </div>}
           </div>
         </div>
