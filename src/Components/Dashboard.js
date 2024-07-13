@@ -16,7 +16,7 @@ function Dashboard() {
   return (
     <>
       <Header />
-      <div className="bg-[#d5dce6] border-black border-solid border-2 m-7 rounded-lg">
+      <div >
         {/* COLUMNS SECTIONS */}
         {columns.length > 0 ? (
           <div className="flex">
