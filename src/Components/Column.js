@@ -8,23 +8,27 @@ import {
   faCheckCircle,
 } from "@fortawesome/free-solid-svg-icons";
 import React, { useState } from "react";
+import columnsSlice from "../redux/columnSlice";
 import Form from "./Form";
+import { useDispatch } from "react-redux";
 function Column(props) {
+  const dispatch = useDispatch();
   const [showDeleteModal, toggleShowDeleteModal] = useState(false);
   const [showAddTaskModal, toggleShowAddTaskModal] = useState(false);
-  const handleShowMore = () => {
-    toggleShowDeleteModal(true);
-  };
 
   const handleAddTask = () => {
-    toggleShowAddTaskModal(true);
+    toggleShowAddTaskModal(!showAddTaskModal);
   };
 
-  const deleteColumn = () => {};
+  const deleteColumn = () => {
+    dispatch(columnsSlice.actions.deleteColumn(props.colIndex));
+    toggleShowDeleteModal(false);
+  };
 
   return (
     <div className="flex flex-col my-2 ml-2">
       <div className="flex flex-row justify-between m-2 column-header font-bold">
+        <div>{props.colIndex}</div>
         <div className="flex flex-row items-center gap-2">
           <FontAwesomeIcon
             icon={faCircle}
@@ -39,8 +43,12 @@ function Column(props) {
 
         <div className="flex items-center">
           <div className="delete-column mr-6">
-            <button type="button" onClick={handleShowMore}>
-              <FontAwesomeIcon color="gray" icon={faEllipsisVertical} rotation={90} />
+            <button type="button" onClick={()=>(toggleShowDeleteModal(!showDeleteModal))}>
+              <FontAwesomeIcon
+                color="gray"
+                icon={faEllipsisVertical}
+                rotation={90}
+              />
             </button>
             {showDeleteModal && (
               <div>
@@ -60,6 +68,7 @@ function Column(props) {
                 <Form
                   colIndex={props.colIndex}
                   colName={props.singleColumn.name}
+                  handleAddTask={handleAddTask}
                 />
               </div>
             )}
@@ -87,8 +96,16 @@ function Column(props) {
             </div>
             <div className="flex justify-between gap-2 ">
               <div className="flex gap-2 ">
-                <div className="flex justify-start rounded-full bg-red-500 px-2 py-0.5 text-white text-xs font-semibold">
-                  <div>Critical</div>
+                <div
+                  className={`${
+                    singleTask.label === "Critical"
+                      ? "bg-red-600"
+                      : singleTask.label === "Medium"
+                      ? "bg-orange-400"
+                      : "bg-yellow-300"
+                  } flex justify-start rounded-full px-2 py-0.5 text-white text-xs font-semibold`}
+                >
+                  {<div>{singleTask.label}</div>}
                 </div>
                 <div className="flex items-center gap-2 justify-start rounded-full bg-cyan-200 px-3 py-1 text-white text-xs font-semibold">
                   <FontAwesomeIcon icon={faStar} fontSize={10} />
@@ -100,11 +117,13 @@ function Column(props) {
                 </div>
               </div>
               <div>
-                <FontAwesomeIcon
-                  color="green"
-                  icon={faCheckCircle}
-                  fontSize={15}
-                />
+                <div>
+                  <FontAwesomeIcon
+                    color={singleTask.isVerified ? "green" : "grey"}
+                    icon={faCheckCircle}
+                    fontSize={15}
+                  />
+                </div>
               </div>
             </div>
           </div>

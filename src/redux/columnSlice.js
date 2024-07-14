@@ -6,17 +6,20 @@ const columnsSlice = createSlice({
     initialState: data.columns,
     reducers: {
         addTask: (state, action) => {
-          const { title, description, status, newColIndex } =
+          const { title, description, status, label, isVerified, newColIndex } =
             action.payload;
           
           // const board = state.find((board) => board.isActive);
           const column = state.find((col, index) => {
             return index === newColIndex
           });
-          const task = { title, description, status, newColIndex};
+          const task = { title, description, status, label,isVerified, newColIndex};
           column.tasks.push(task);
-
-
+        },
+        deleteColumn: (state, action) => {
+          const {newColIndex}=action.payload;
+          state.splice(newColIndex,1);
+          console.log(newColIndex);
         },
         // editTask: (state, action) => {
         //   const {
