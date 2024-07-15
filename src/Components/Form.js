@@ -16,17 +16,18 @@ function Form(props) {
     newColIndex: props.colIndex,
   });
   const [openDropdown, toggleDropDown] = useState(false);
-  const [showIsVerified, toggleIsVerified] = useState(false);
-  const handleDropDown = (label) => {
-    let updatedTask = newTask;
-    updatedTask.label = label;
-    setNewTask(updatedTask);
+  const handleDropDown = (labelInput) => {
+    setNewTask((prevTask) => ({
+      ...prevTask,
+      label: labelInput,
+    }));
     toggleDropDown(false);
   };
   const handleIsVerified = () => {
-    let updatedTask = newTask;
-    updatedTask.isVerified = !updatedTask.isVerified;
-    setNewTask(updatedTask);
+    setNewTask((prevTask) => ({
+      ...prevTask,
+      isVerified: !newTask.isVerified,
+    }));
   };
   const onChange = (e) => {
     setNewTask({ ...newTask, [e.target.name]: e.target.value });
@@ -80,9 +81,11 @@ function Form(props) {
         </div>
 
         {/* label */}
-        <div>
+        <div className="cursor-auto " > 
           <div onClick={() => toggleDropDown(!openDropdown)}>
-            <span>Severity</span>
+
+            {newTask.label ? <span>{newTask.label}</span> : <span>Severity</span>}
+
             {!openDropdown ? (
               <FontAwesomeIcon icon={faAngleDown} />
             ) : (
@@ -111,7 +114,7 @@ function Form(props) {
         </div>
         {/* is verified */}
         <div>
-          <div>
+          <div className="cursor-auto ">
             <span>Is Verified?</span>
             {!newTask.isVerified ? (
               <div onClick={handleIsVerified}>
