@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, current } from "@reduxjs/toolkit";
 import data from "../data.json";
 
 const columnsSlice = createSlice({
@@ -24,8 +24,21 @@ const columnsSlice = createSlice({
     deleteColumn: (state, action) => {
       const { newColIndex } = action.payload;
       state.splice(newColIndex, 1);
-      console.log(newColIndex);
     },
+    editTask: (state, action) => {
+      const { colIndex, taskIndex, updatedTask } = action.payload;
+      const column = state.find((col, index) => {
+        return index === colIndex;
+      });
+      const currColumn=current(column);
+      column.tasks=currColumn.tasks.map((task, j) => {
+        return j === taskIndex ? updatedTask : task;
+      })
+    },
+    deleteTask: (state,action)=>{
+      const {colIndex, taskIndex}= action.payload;
+      state[colIndex].tasks.splice(taskIndex,1)
+    }
     // editTask: (state, action) => {
     //   const {
     //     title,
@@ -48,6 +61,7 @@ const columnsSlice = createSlice({
     //   const newCol = board.columns.find((col, index) => index === newColIndex);
     //   newCol.tasks.push(task);
     // },
+
     // dragTask: (state, action) => {
     //   const { colIndex, prevColIndex, taskIndex } = action.payload;
     //   const board = state.find((board) => board.isActive);

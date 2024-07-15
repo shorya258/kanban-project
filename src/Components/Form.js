@@ -11,7 +11,7 @@ function Form(props) {
     title: "",
     description: "",
     label: "",
-    isVerified:false,
+    isVerified: false,
     status: props.colName,
     newColIndex: props.colIndex,
   });
@@ -24,10 +24,8 @@ function Form(props) {
     toggleDropDown(false);
   };
   const handleIsVerified = () => {
-    toggleIsVerified(!showIsVerified);
-    let isVerifiedInput = !showIsVerified;
     let updatedTask = newTask;
-    updatedTask.isVerified = isVerifiedInput;
+    updatedTask.isVerified = !updatedTask.isVerified;
     setNewTask(updatedTask);
   };
   const onChange = (e) => {
@@ -35,22 +33,20 @@ function Form(props) {
   };
   const onSubmitForm = (e) => {
     e.preventDefault();
-    if(props.taskIndex) 
-        editForm();
-    dispatch(columnsSlice.actions.addTask(newTask));
-    props.handleAddTask();
-  };
-  const editForm=()=>{
-    const editFormValues=newTask;
-    
-  }
-  
-  useEffect(() => {
-    if(props.taskIndex){
-        
+    if (props.actionType === "edit") {
+      props.handleEditTask();
+      props.editTask(newTask, props.taskIndex);
+    } else {
+      props.addTask(newTask);
     }
-  }, [])
-  
+  };
+
+  useEffect(() => {
+    if (props.actionType === "edit") {
+      setNewTask(props.taskDetails);
+    }
+  }, []);
+
   return (
     <div>
       <form className="text-sm border-solid border-2 border-blue-300 rounded-sm p-3">
@@ -117,7 +113,7 @@ function Form(props) {
         <div>
           <div>
             <span>Is Verified?</span>
-            {!showIsVerified ? (
+            {!newTask.isVerified ? (
               <div onClick={handleIsVerified}>
                 <FontAwesomeIcon icon={faCircle} />
               </div>
@@ -128,13 +124,15 @@ function Form(props) {
             )}
           </div>
         </div>
+
         <button
           className="bg-blue-600 hover:bg-blue-700 rounded-full text-white m-4 p-2 text-sm"
           type="button"
           onClick={onSubmitForm}
         >
-          Add new task
+          {props.actionType === "edit" ? "Update Task" : " Add new task"}
         </button>
+
         {/* <div className="hover:bg-[#635FC7] bg-zinc-300">
         </div> */}
       </form>
