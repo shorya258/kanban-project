@@ -1,31 +1,45 @@
 // selectors.js
-import { createSelector } from 'reselect';
+import { createSelector } from "reselect";
 
 const getSearchFilter = (state) => state.searchFilter;
 const getSortFilter = (state) => state.sortFilter;
-const getItems = (state) => state.store.columns; // assuming you have an items array in your state
+const getItems = (state) => state.columns; // assuming you have an items array in your state
 
 export const getFilteredAndSortedItems = createSelector(
   [getSearchFilter, getSortFilter, getItems],
-  (searchFilter, sortFilter, items) => {
-    let filteredItems = items;
-    console.log(items, searchFilter);
+  (searchFilter, sortFilter, columns) => {
+    console.log(columns, searchFilter);
+    let filteredColumns = columns;
     // Apply search filter
     if (searchFilter) {
-      filteredItems = filteredItems.filter((item) =>
-        item.name.toLowerCase().includes(searchFilter.toLowerCase())
+      filteredColumns = columns.map((column) => {
+        console.log(column.tasks, "tasks");
+        return {
+          name: column.name,
+          color: column.color,
+          tasks: column.tasks.filter((task) =>
+            task.title.toLowerCase().includes(searchFilter.toLowerCase())
+          ),
+        };
+      });
+    }
+    console.log(filteredColumns, "filteredColumns");
+
+    // Apply sort filter
+    if (sortFilter === "asc") {
+      filteredColumns = filteredColumns.sort((a, b) =>
+        a.name.localeCompare(b.name)
+      );
+    } else if (sortFilter === "desc") {
+      filteredColumns = filteredColumns.sort((a, b) =>
+        b.name.localeCompare(a.name)
+      );
+    } else if (sortFilter === "name") {
+      filteredColumns = filteredColumns.sort((a, b) =>
+        a.name.localeCompare(b.name)
       );
     }
 
-    // Apply sort filter
-    if (sortFilter === 'asc') {
-      filteredItems = filteredItems.sort((a, b) => a.name.localeCompare(b.name));
-    } else if (sortFilter === 'desc') {
-      filteredItems = filteredItems.sort((a, b) => b.name.localeCompare(a.name));
-    } else if (sortFilter === 'name') {
-      filteredItems = filteredItems.sort((a, b) => a.name.localeCompare(b.name));
-    }
-
-    return filteredItems;
+    return filteredColumns;
   }
 );

@@ -9,28 +9,27 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import {useDispatch, useSelector } from "react-redux";
 import React from "react";
-import { createSlice, current } from "@reduxjs/toolkit";
-import { setFilter, clearFilter } from '../redux/filterActions';
+import { setFilter } from "../redux/columnSlice";
 
 
 function FilterHeader(props) {
   const dispatch = useDispatch();
-  const sortOptions = useSelector((state) => state.store.sortOptions);
-  const assignedList = useSelector((state) => state.store.assignedList);
-  const severityList = useSelector((state) => state.store.severityList);
-  const statusList = useSelector((state) => state.store.statusList);
+  const sortOptions = useSelector((state) => state.sortOptions);
+  const assignedList = useSelector((state) => state.assignedList);
+  const severityList = useSelector((state) => state.severityList);
+  const statusList = useSelector((state) => state.statusList);
   console.log(useSelector((state) => {
-    return state.filter;
+    return state.searchFilter;
   }))
   const searchFilter = useSelector((state) => {
-    return state.filter.searchFilter;
+    return state.searchFilter;
   });
   const sortFilter = useSelector((state) => {
-    return state.filter.sortFilter;
+    return state.sortFilter;
   });
 
   const handleSearchChange = (e) => {
-    dispatch(setFilter('searchFilter', e.target.value));
+    dispatch(setFilter({ filterType: 'searchFilter', value: e.target.value }));
   };
   return (
     <div className="flex items-center gap-2 ml-4">

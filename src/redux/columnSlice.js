@@ -56,6 +56,16 @@ const columnsSlice = createSlice({
       const task = prevCol.tasks.splice(taskIndex, 1)[0];
       state.columns.find((col, i) => i === colIndex).tasks.push(task);
     },
+    setFilter: (state, action) => {
+      const { filterType, value } = action.payload;
+      state[filterType] = value;
+    },
+    clearFilter(state, action) {
+      const filterType = action.payload;
+      state[filterType] = '';
+    },
   },
 });
-export default columnsSlice;
+export const { setFilter, clearFilter } = columnsSlice.actions;
+export default columnsSlice.reducer;
+

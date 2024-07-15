@@ -17,7 +17,7 @@ function Dashboard() {
   const [statusIndex, setStatusIndex] = useState("");
   const dispatch = useDispatch();
   const columns = useSelector((state) => {
-    return state.store.columns;
+    return state.columns;
   });
 
   const filteredAndSortedItems = useSelector(getFilteredAndSortedItems);
