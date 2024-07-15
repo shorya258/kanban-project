@@ -12,7 +12,6 @@ import {
 function SingleTask(props) {
   const [showDeleteTaskModal, toggleDeleteTaskModal] = useState(false);
   const [showEditTaskForm, toggleShowEditTaskForm] = useState(false);
-  const [dragging, setDragging] = useState(false);
   const handleDeleteTask = () => {
     toggleDeleteTaskModal(!showDeleteTaskModal);
   };
@@ -20,7 +19,6 @@ function SingleTask(props) {
     toggleShowEditTaskForm(!showEditTaskForm);
   };
   const handleOnDrag = (e) => {
-    setDragging(true);
     let taskIndex = props.id;
     let colIndex = props.colIndex;
     console.log("single task ", taskIndex, colIndex);
@@ -39,7 +37,6 @@ function SingleTask(props) {
       onDragStart={handleOnDrag}
       style={{
         width: '250px',
-        border: dragging ? '2px dashed #000' : '1px solid #000',
         transition: 'background-color 0.2s, border 0.2s',
         cursor: 'grab',
       }}

@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { faAngleUp, faCircleCheck, faXmark } from "@fortawesome/free-solid-svg-icons";
+import {
+  faAngleUp,
+  faCircleCheck,
+  faXmark,
+} from "@fortawesome/free-solid-svg-icons";
 import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircle } from "@fortawesome/free-regular-svg-icons";
@@ -13,6 +17,7 @@ function Form(props) {
     newColIndex: props.colIndex,
   });
   const [openDropdown, toggleDropDown] = useState(false);
+  const [errorsObj, setErrorsIbj] = useState({});
   const handleDropDown = (labelInput) => {
     setNewTask((prevTask) => ({
       ...prevTask,
@@ -31,6 +36,7 @@ function Form(props) {
   };
   const onSubmitForm = (e) => {
     e.preventDefault();
+    if (validateFormValues(newTask)) return;
     if (props.actionType === "edit") {
       props.handleEditTask();
       props.editTask(newTask, props.taskIndex);
@@ -39,12 +45,38 @@ function Form(props) {
     }
   };
   const onFormClose = () => {
-    if(props.actionType === "edit") {
+    if (props.actionType === "edit") {
       props.handleEditTask();
     } else {
-      props.handleAddTask()
+      props.handleAddTask();
     }
-  }
+  };
+  const validateFormValues = (newTask) => {
+    const generatedErrors = {};
+    var errorFound = false;
+    console.log(typeof newTask.title);
+    if (newTask.title?.length === 0) {
+      generatedErrors.title = "*Task name can not be empty.";
+      errorFound = true;
+    } else if (newTask.title?.length < 4) {
+      generatedErrors.title = "*Task name should have at least 4 characters.";
+      errorFound = true;
+    }
+    if (newTask.description?.length === 0) {
+      generatedErrors.description = "*Description can not be empty.";
+      errorFound = true;
+    } else if (newTask.Description?.length < 4) {
+      generatedErrors.Description =
+        "*Description should have at least 4 characters.";
+      errorFound = true;
+    }
+    if (newTask.label?.length === 0) {
+      generatedErrors.label = "*Choose a label.";
+      errorFound = true;
+    }
+    setErrorsIbj(generatedErrors);
+    return errorFound;
+  };
   useEffect(() => {
     if (props.actionType === "edit") {
       setNewTask(props.taskDetails);
@@ -53,21 +85,26 @@ function Form(props) {
 
   return (
     <div
-      class="relative z-10"
+      className="relative z-10"
       aria-labelledby="modal-title"
       role="dialog"
       aria-modal="true"
     >
       <div
-        class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
+        className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
         aria-hidden="true"
       ></div>
 
-      <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
-        <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-          <div class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
-          <FontAwesomeIcon className="absolute right-4 top-4 cursor-pointer" icon={faXmark} fontSize={20} onClick={onFormClose}  />
-            <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+      <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
+        <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+          <div className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+            <FontAwesomeIcon
+              className="absolute right-4 top-4 cursor-pointer"
+              icon={faXmark}
+              fontSize={20}
+              onClick={onFormClose}
+            />
+            <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
               <form className="text-sm p-3 flex flex-col gap-y-2">
                 <div className="task-name">
                   <label htmlFor="taskName">Task Name </label>
@@ -82,6 +119,11 @@ function Form(props) {
                     placeholder="task name"
                     className="bg-blue-200 rounded-sm w-full py-1 px-3"
                   />
+                  {errorsObj !== undefined && errorsObj.title !== undefined && (
+                    <legend className="text-red-500 italic font-thin">
+                      {errorsObj.title}
+                    </legend>
+                  )}
                 </div>
                 <div className="task-description">
                   <label htmlFor="taskDescription">Task Description </label>
@@ -96,6 +138,12 @@ function Form(props) {
                     placeholder="Add a description"
                     className="bg-blue-200 rounded-sm w-full py-1 px-3"
                   />
+                  {errorsObj !== undefined &&
+                    errorsObj.description !== undefined && (
+                      <legend className="text-red-500 italic font-thin">
+                        {errorsObj.description}
+                      </legend>
+                    )}
                 </div>
 
                 {/* label */}
@@ -136,6 +184,11 @@ function Form(props) {
                     </div>
                   )}
                 </div>
+                {errorsObj !== undefined && errorsObj.label !== undefined && (
+                  <legend className="text-red-500 italic font-thin">
+                    {errorsObj.label}
+                  </legend>
+                )}
                 {/* is verified */}
                 <div>
                   <div className="cursor-auto flex gap-x-2">
