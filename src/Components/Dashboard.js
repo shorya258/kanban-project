@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import Column from "./Column";
 import EmptyBoard from "./EmptyBoard";
 import columnsSlice from "../redux/columnSlice";
+import FilterHeader from "./FilterHeader";
 function Dashboard() {
   // const [isBoardModalOpen, setIsBoardModalOpen] = useState(false);
   const[showAddColModal, toggleAddColModal]=useState(false);
@@ -23,6 +24,7 @@ function Dashboard() {
   return (
     <>
       <Header />
+      <FilterHeader/>
       <div >
         {/* COLUMNS SECTIONS */}
         {columns.length > 0 ? (

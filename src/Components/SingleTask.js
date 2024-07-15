@@ -44,11 +44,13 @@ function SingleTask(props) {
         </div>
 
         <div>
-          <div onClick={handleEditTask}>
-            <FontAwesomeIcon icon={faPencil} />
-          </div>
-          <div onClick={handleDeleteTask}>
-            <FontAwesomeIcon icon={faTrash} color="grey" />
+          <div className="flex gap-x-3">
+            <div onClick={handleEditTask}>
+              <FontAwesomeIcon icon={faPencil} color="grey" />
+            </div>
+            <div onClick={handleDeleteTask}>
+              <FontAwesomeIcon icon={faTrash} color="grey" />
+            </div>
           </div>
 
           {showDeleteTaskModal && (

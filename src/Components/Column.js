@@ -42,15 +42,14 @@ function Column(props) {
 
   return (
     <div className="flex flex-col my-2 ml-2">
-      <div className="flex flex-row justify-between m-2 column-header font-bold">
-        <div>{props.colIndex}</div>
+      <div className="flex flex-row justify-between m-2 column-header">
         <div className="flex flex-row items-center gap-2">
           <FontAwesomeIcon
             icon={faCircle}
             color={props.singleColumn.color}
             fontSize={5}
           />
-          <h4>{props.singleColumn.name}</h4>
+          <h4 className="font-bold">{props.singleColumn.name}</h4>
           <p className="text-gray-600 font-light">
             {props.singleColumn.tasks?.length}
           </p>
@@ -90,6 +89,7 @@ function Column(props) {
                   colName={props.singleColumn.name}
                   addTask={addTask}
                   actionType="add"
+                  handleAddTask={handleAddTask}
                 />
               </div>
             )}
