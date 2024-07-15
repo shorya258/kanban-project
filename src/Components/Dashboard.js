@@ -41,7 +41,7 @@ function Dashboard() {
         {/* COLUMNS SECTIONS */}
         {filteredAndSortedItems.length > 0 ? (
           <div className="flex">
-            {columns.map((col, index) => {
+            {filteredAndSortedItems.map((col, index) => {
               return (
                 <div key={index} className="flex-row">
                   <Column colIndex={index} singleColumn={col} />

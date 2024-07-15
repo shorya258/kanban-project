@@ -31,7 +31,6 @@ function SingleTask(props) {
     console.log(e.dataTransfer.getData("application/json"));
   };
   const getMonthWiseDate = (date) => {
-    console.log(date)
     const months = [
       "Jan",
       "Feb",
@@ -48,7 +47,6 @@ function SingleTask(props) {
     ];
 
     const newDay = new Date(date).getDate();
-    console.log(newDay)
     const newMonth = months[new Date(date).getMonth()];
     return newDay + " " + newMonth;
   };
