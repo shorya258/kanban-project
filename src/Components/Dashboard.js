@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "./Header";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
@@ -8,27 +8,52 @@ import columnsSlice from "../redux/columnSlice";
 import FilterHeader from "./FilterHeader";
 function Dashboard() {
   // const [isBoardModalOpen, setIsBoardModalOpen] = useState(false);
-  const[showAddColModal, toggleAddColModal]=useState(false);
-  const[newColName, setNewColName]= useState("");
-  const dispatch= useDispatch();
+  const [showAddColModal, toggleAddColModal] = useState(false);
+  const [newColName, setNewColName] = useState("");
+  const [sortIndex, setSortIndex] = useState("");
+  const [assignedIndex, setAssignedIndex] = useState("");
+  const [severityIndex, setSeverityIndex] = useState("");
+  const [statusIndex, setStatusIndex] = useState("");
+  const dispatch = useDispatch();
   const columns = useSelector((state) => {
     return state.columns;
   });
-  const addColumn=()=>{
-    let newColIndex=columns.length;
-    console.log("col name changed to", newColName,newColIndex )
+  const [filteredColumns, setFilteredColumns] = useState(columns);
+  const addColumn = () => {
+    let newColIndex = columns.length;
+    console.log("col name changed to", newColName, newColIndex);
     dispatch(columnsSlice.actions.addColumn(newColName));
-    setNewColName("")
+    setNewColName("");
     toggleAddColModal(false);
-  }
+  };
+  const handleSort = (sortIndex) => {
+    setSortIndex(sortIndex);
+  };
+  const handleAssigned = (assignedIndex) => {
+    setAssignedIndex(assignedIndex);
+  };
+  const handleSeverity = (severityIndex) => {
+    setSeverityIndex(severityIndex);
+  };
+  const handleStatus = (statusIndex) => {
+    setStatusIndex(statusIndex);
+  };
+  useEffect(() => {
+    console.log("use Called");
+  }, [sortIndex,assignedIndex,severityIndex,statusIndex]);
   return (
     <>
       <Header />
-      <FilterHeader/>
-      <div >
+      <FilterHeader
+        handleSort={handleSort}
+        handleAssigned={handleAssigned}
+        handleSeverity={handleSeverity}
+        handleStatus={handleStatus}
+      />
+      <div>
         {/* COLUMNS SECTIONS */}
         {columns.length > 0 ? (
-          <div className="flex"  >
+          <div className="flex">
             {columns.map((col, index) => {
               return (
                 <div key={index} className="flex-row">
@@ -36,24 +61,27 @@ function Dashboard() {
                 </div>
               );
             })}
-            {
-              !showAddColModal?
+            {!showAddColModal ? (
               <div
-              onClick={()=>(toggleAddColModal(true))}
-              className=" bg-[#2b2c3740] flex justify-center items-center font-bold hover:text-[#635FC7] transition duration-300 cursor-pointer bg-[#E9EFFA] scrollbar-hide mb-2   mx-5 pt-[90px] w-40 mt-[135px] rounded-lg "
-            >
-              + New Column
-            </div>:
-            <div>
-              <input
-              type="text"
-              placeholder="Enter the column name"
-              value={newColName}
-              onChange={(e)=>(setNewColName( e.target.value))}
-              />
-              <button type="button"  onClick={addColumn} > Create</button>
-            </div>
-            }
+                onClick={() => toggleAddColModal(true)}
+                className=" bg-[#2b2c3740] flex justify-center items-center font-bold hover:text-[#635FC7] transition duration-300 cursor-pointer bg-[#E9EFFA] scrollbar-hide mb-2   mx-5 pt-[90px] w-40 mt-[135px] rounded-lg "
+              >
+                + New Column
+              </div>
+            ) : (
+              <div>
+                <input
+                  type="text"
+                  placeholder="Enter the column name"
+                  value={newColName}
+                  onChange={(e) => setNewColName(e.target.value)}
+                />
+                <button type="button" onClick={addColumn}>
+                  {" "}
+                  Create
+                </button>
+              </div>
+            )}
           </div>
         ) : (
           <>

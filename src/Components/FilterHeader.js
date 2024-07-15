@@ -7,13 +7,22 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
+import { useSelector } from "react-redux";
 import React from "react";
 
-function FilterHeader() {
-  const sortOptions = ["Date", "Ticket", "Story points"];
-  const assignedList = ["Rohit", "Virat", "Dhoni"];
-  const severityList = ["Low", "Medium", "Critical"];
-  const statusList = ["Todo", "Doing", "Done"]
+function FilterHeader(props) {
+  const sortOptions = useSelector((state) => {
+    return state.sortOptions;
+  });
+  const assignedList = useSelector((state) => {
+    return state.assignedList;
+  });
+  const severityList = useSelector((state) => {
+    return state.severityList;
+  });
+  const statusList = useSelector((state) => {
+    return state.statusList;
+  });
 
   return (
     <div className="flex items-center gap-2 ml-4">
@@ -50,10 +59,10 @@ function FilterHeader() {
         <MenuItems
           transition
           className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
-        >
-          {sortOptions.map((option) => {
+        >{console.log(sortOptions, "sortOptions")}
+          {sortOptions.map((option,index) => {
             return (
-              <MenuItem className="py-1">
+              <MenuItem className="py-1" onClick={() => props.handleSort(index)}>
                 <a
                   href="#"
                   className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900"
@@ -82,9 +91,9 @@ function FilterHeader() {
           transition
           className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
         >
-          {assignedList.map((option) => {
+          {assignedList.map((option,index) => {
             return (
-              <MenuItem className="py-1">
+              <MenuItem className="py-1" onClick={() => props.handleAssigned(index)}>
                 <a
                   href="#"
                   className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900"
@@ -113,9 +122,9 @@ function FilterHeader() {
           transition
           className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
         >
-          {severityList.map((option) => {
+          {severityList.map((option,index) => {
             return (
-              <MenuItem className="py-1">
+              <MenuItem className="py-1" onClick={() => props.handleSeverity(index)}>
                 <a
                   href="#"
                   className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900"
@@ -144,9 +153,9 @@ function FilterHeader() {
           transition
           className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
         >
-          {statusList.map((option) => {
+          {statusList.map((option,index) => {
             return (
-              <MenuItem className="py-1">
+              <MenuItem className="py-1" onClick={() => props.handleStatus(index)}>
                 <a
                   href="#"
                   className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900"

@@ -2,13 +2,13 @@ import { createSlice, current } from "@reduxjs/toolkit";
 import data from "../data.json";
 
 const columnsSlice = createSlice({
-  name: "columns",
-  initialState: data.columns,
+  name: "store",
+  initialState: data,
   reducers: {
     addTask: (state, action) => {
       const { title, description, status, label, isVerified, newColIndex } =
         action.payload;
-      const column = state.find((col, index) => {
+      const column = state.columns.find((col, index) => {
         return index === newColIndex;
       });
       const task = {
@@ -23,11 +23,11 @@ const columnsSlice = createSlice({
     },
     deleteColumn: (state, action) => {
       const { newColIndex } = action.payload;
-      state.splice(newColIndex, 1);
+      state.columns.splice(newColIndex, 1);
     },
     editTask: (state, action) => {
       const { colIndex, taskIndex, updatedTask } = action.payload;
-      const column = state.find((col, index) => {
+      const column = state.columns.find((col, index) => {
         return index === colIndex;
       });
       const currColumn = current(column);
@@ -37,7 +37,7 @@ const columnsSlice = createSlice({
     },
     deleteTask: (state, action) => {
       const { colIndex, taskIndex } = action.payload;
-      state[colIndex].tasks.splice(taskIndex, 1);
+      state.columns[colIndex].tasks.splice(taskIndex, 1);
     },
     addColumn: (state, action) => {
       console.log(action.payload);
@@ -47,14 +47,14 @@ const columnsSlice = createSlice({
         color: "cyan",
         tasks: [],
       };
-      state.push(newCol);
+      state.columns.push(newCol);
     },
 
     dragTask: (state, action) => {
       const { colIndex, prevColIndex, taskIndex } = action.payload;
-      const prevCol = state.find((col, i) => i === prevColIndex);
+      const prevCol = state.columns.find((col, i) => i === prevColIndex);
       const task = prevCol.tasks.splice(taskIndex, 1)[0];
-      state.find((col, i) => i === colIndex).tasks.push(task);
+      state.columns.find((col, i) => i === colIndex).tasks.push(task);
     },
   },
 });

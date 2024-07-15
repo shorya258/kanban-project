@@ -52,7 +52,7 @@ function Column(props) {
   };
   return (
     <div
-      className="flex flex-col my-2 ml-2"
+      className="flex flex-col my-2 ml-2 h-full"
       onDragOver={handleDragOver}
       onDrop={handleDragEnd}
     >
