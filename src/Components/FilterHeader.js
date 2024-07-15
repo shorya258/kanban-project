@@ -7,23 +7,31 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
-import { useSelector } from "react-redux";
+import {useDispatch, useSelector } from "react-redux";
 import React from "react";
+import { createSlice, current } from "@reduxjs/toolkit";
+import { setFilter, clearFilter } from '../redux/filterActions';
+
 
 function FilterHeader(props) {
-  const sortOptions = useSelector((state) => {
-    return state.sortOptions;
+  const dispatch = useDispatch();
+  const sortOptions = useSelector((state) => state.store.sortOptions);
+  const assignedList = useSelector((state) => state.store.assignedList);
+  const severityList = useSelector((state) => state.store.severityList);
+  const statusList = useSelector((state) => state.store.statusList);
+  console.log(useSelector((state) => {
+    return state.filter;
+  }))
+  const searchFilter = useSelector((state) => {
+    return state.filter.searchFilter;
   });
-  const assignedList = useSelector((state) => {
-    return state.assignedList;
-  });
-  const severityList = useSelector((state) => {
-    return state.severityList;
-  });
-  const statusList = useSelector((state) => {
-    return state.statusList;
+  const sortFilter = useSelector((state) => {
+    return state.filter.sortFilter;
   });
 
+  const handleSearchChange = (e) => {
+    dispatch(setFilter('searchFilter', e.target.value));
+  };
   return (
     <div className="flex items-center gap-2 ml-4">
       <div className="relative rounded-md shadow-sm">
@@ -39,6 +47,8 @@ function FilterHeader(props) {
           type="text"
           name="price"
           id="price"
+          onChange={handleSearchChange}
+          value={searchFilter}
           className="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
           placeholder="Search by name, issue..."
         />
@@ -59,10 +69,14 @@ function FilterHeader(props) {
         <MenuItems
           transition
           className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
-        >{console.log(sortOptions, "sortOptions")}
-          {sortOptions.map((option,index) => {
+        >
+          {sortOptions.map((option, index) => {
             return (
-              <MenuItem className="py-1" onClick={() => props.handleSort(index)}>
+              <MenuItem
+                key={index}
+                className="py-1"
+                onClick={() => props.handleSort(index)}
+              >
                 <a
                   href="#"
                   className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900"
@@ -91,9 +105,13 @@ function FilterHeader(props) {
           transition
           className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
         >
-          {assignedList.map((option,index) => {
+          {assignedList.map((option, index) => {
             return (
-              <MenuItem className="py-1" onClick={() => props.handleAssigned(index)}>
+              <MenuItem
+                key={index}
+                className="py-1"
+                onClick={() => props.handleAssigned(index)}
+              >
                 <a
                   href="#"
                   className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900"
@@ -122,9 +140,13 @@ function FilterHeader(props) {
           transition
           className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
         >
-          {severityList.map((option,index) => {
+          {severityList.map((option, index) => {
             return (
-              <MenuItem className="py-1" onClick={() => props.handleSeverity(index)}>
+              <MenuItem
+                key={index}
+                className="py-1"
+                onClick={() => props.handleSeverity(index)}
+              >
                 <a
                   href="#"
                   className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900"
@@ -153,9 +175,13 @@ function FilterHeader(props) {
           transition
           className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
         >
-          {statusList.map((option,index) => {
+          {statusList.map((option, index) => {
             return (
-              <MenuItem className="py-1" onClick={() => props.handleStatus(index)}>
+              <MenuItem
+                key={index}
+                className="py-1"
+                onClick={() => props.handleStatus(index)}
+              >
                 <a
                   href="#"
                   className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900"

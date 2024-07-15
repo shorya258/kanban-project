@@ -6,6 +6,7 @@ import Column from "./Column";
 import EmptyBoard from "./EmptyBoard";
 import columnsSlice from "../redux/columnSlice";
 import FilterHeader from "./FilterHeader";
+import { getFilteredAndSortedItems } from "../redux/filterSelector";
 function Dashboard() {
   // const [isBoardModalOpen, setIsBoardModalOpen] = useState(false);
   const [showAddColModal, toggleAddColModal] = useState(false);
@@ -16,9 +17,10 @@ function Dashboard() {
   const [statusIndex, setStatusIndex] = useState("");
   const dispatch = useDispatch();
   const columns = useSelector((state) => {
-    return state.columns;
+    return state.store.columns;
   });
-  const [filteredColumns, setFilteredColumns] = useState(columns);
+
+  const filteredAndSortedItems = useSelector(getFilteredAndSortedItems);
   const addColumn = () => {
     let newColIndex = columns.length;
     console.log("col name changed to", newColName, newColIndex);
@@ -26,18 +28,7 @@ function Dashboard() {
     setNewColName("");
     toggleAddColModal(false);
   };
-  const handleSort = (sortIndex) => {
-    setSortIndex(sortIndex);
-  };
-  const handleAssigned = (assignedIndex) => {
-    setAssignedIndex(assignedIndex);
-  };
-  const handleSeverity = (severityIndex) => {
-    setSeverityIndex(severityIndex);
-  };
-  const handleStatus = (statusIndex) => {
-    setStatusIndex(statusIndex);
-  };
+
   useEffect(() => {
     console.log("use Called");
   }, [sortIndex,assignedIndex,severityIndex,statusIndex]);
@@ -45,14 +36,10 @@ function Dashboard() {
     <>
       <Header />
       <FilterHeader
-        handleSort={handleSort}
-        handleAssigned={handleAssigned}
-        handleSeverity={handleSeverity}
-        handleStatus={handleStatus}
       />
       <div>
         {/* COLUMNS SECTIONS */}
-        {columns.length > 0 ? (
+        {filteredAndSortedItems.length > 0 ? (
           <div className="flex">
             {columns.map((col, index) => {
               return (
