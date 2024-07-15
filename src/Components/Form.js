@@ -54,7 +54,6 @@ function Form(props) {
   const validateFormValues = (newTask) => {
     const generatedErrors = {};
     var errorFound = false;
-    console.log(typeof newTask.title);
     if (newTask.title?.length === 0) {
       generatedErrors.title = "*Task name can not be empty.";
       errorFound = true;

@@ -8,8 +8,9 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import {useDispatch, useSelector } from "react-redux";
-import React from "react";
-import { setFilter } from "../redux/columnSlice";
+import React, { useEffect } from "react";
+import { createSlice, current } from "@reduxjs/toolkit";
+import { setFilter, clearFilter } from '../redux/filterActions';
 
 
 function FilterHeader(props) {
@@ -31,6 +32,10 @@ function FilterHeader(props) {
   const handleSearchChange = (e) => {
     dispatch(setFilter({ filterType: 'searchFilter', value: e.target.value }));
   };
+  useEffect(() => {
+    props.handleAssignedNames();
+  }, [])
+  
   return (
     <div className="flex items-center gap-2 ml-4">
       <div className="relative rounded-md shadow-sm">

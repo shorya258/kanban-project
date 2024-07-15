@@ -4,7 +4,7 @@ import {
   faEllipsisVertical,
   faCircle,
 } from "@fortawesome/free-solid-svg-icons";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import columnsSlice from "../redux/columnSlice";
 import Form from "./Form";
 import { useDispatch } from "react-redux";
@@ -36,7 +36,6 @@ function Column(props) {
     dispatch(columnsSlice.actions.deleteTask({ colIndex, taskIndex }));
   };
   const handleDragEnd = (e) => {
-    console.log(JSON.parse(e.dataTransfer.getData('application/json')))
     const { prevColIndex, taskIndex } = JSON.parse(
       e.dataTransfer.getData('application/json')
     );
@@ -50,6 +49,8 @@ function Column(props) {
   const handleDragOver = (e) => {
     e.preventDefault();
   };
+  
+  
   return (
     <div
       className="flex flex-col my-2 ml-2 h-full"
@@ -112,7 +113,8 @@ function Column(props) {
       </div>
       <div className="m-2 ">
         {props.singleColumn.tasks?.map((singleTask, index) => (
-          <SingleTask
+          <div>
+            <SingleTask
             key={index}
             id={index}
             colIndex={props.colIndex}
@@ -120,6 +122,7 @@ function Column(props) {
             deleteTask={deleteTask}
             editTask={editTask}
           />
+          </div>
         ))}
       </div>
     </div>

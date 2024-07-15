@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Form from "./Form";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircle } from "@fortawesome/free-regular-svg-icons";
@@ -12,6 +12,7 @@ import {
 function SingleTask(props) {
   const [showDeleteTaskModal, toggleDeleteTaskModal] = useState(false);
   const [showEditTaskForm, toggleShowEditTaskForm] = useState(false);
+
   const handleDeleteTask = () => {
     toggleDeleteTaskModal(!showDeleteTaskModal);
     props.deleteTask(props.id);
@@ -22,13 +23,10 @@ function SingleTask(props) {
   const handleOnDrag = (e) => {
     let taskIndex = props.id;
     let colIndex = props.colIndex;
-    console.log("single task ", taskIndex, colIndex);
     e.dataTransfer.setData(
       "application/json",
       JSON.stringify({ taskIndex, prevColIndex: colIndex })
     );
-    // console.log()
-    console.log(e.dataTransfer.getData("application/json"));
   };
   const getMonthWiseDate = (date) => {
     const months = [
@@ -50,6 +48,9 @@ function SingleTask(props) {
     const newMonth = months[new Date(date).getMonth()];
     return newDay + " " + newMonth;
   };
+  
+   
+
   return (
     <div draggable="false">
       <div

@@ -28,14 +28,26 @@ function Dashboard() {
     setNewColName("");
     toggleAddColModal(false);
   };
+  const [assignedNames, setAssignedNames]=useState([]);
 
+  const handleAssignedNames=()=>{
+    columns?.map((singleColumn, index) => (
+      singleColumn.tasks?.map((singleTask,i)=>{
+        
+        return setAssignedNames(...assignedNames,singleTask.assignedTo)
+      }
+      )
+    ))
+    console.log(assignedNames)
+  }
+  
   useEffect(() => {
     console.log("use Called");
   }, [sortIndex,assignedIndex,severityIndex,statusIndex]);
   return (
     <>
       <Header />
-      <FilterHeader
+      <FilterHeader handleAssignedNames={handleAssignedNames}
       />
       <div>
         {/* COLUMNS SECTIONS */}
