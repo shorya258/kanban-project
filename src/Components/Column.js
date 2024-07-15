@@ -52,7 +52,7 @@ function Column(props) {
           />
           <h4>{props.singleColumn.name}</h4>
           <p className="text-gray-600 font-light">
-            {props.singleColumn.tasks.length}
+            {props.singleColumn.tasks?.length}
           </p>
         </div>
 
@@ -97,7 +97,7 @@ function Column(props) {
         </div>
       </div>
       <div className="m-2 ">
-        {props.singleColumn.tasks.map((singleTask, index) => (
+        {props.singleColumn.tasks?.map((singleTask, index) => (
           <SingleTask
             key={index}
             id={index}

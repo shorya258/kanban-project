@@ -38,29 +38,19 @@ const columnsSlice = createSlice({
     deleteTask: (state,action)=>{
       const {colIndex, taskIndex}= action.payload;
       state[colIndex].tasks.splice(taskIndex,1)
+    },
+    addColumn:(state,action)=>{
+      console.log(action.payload)
+      const  colName =action.payload;
+      const newCol= {
+        name: colName,
+        color:"cyan",
+        tasks:[],
+      }
+      // const newCol=action.payload;
+      state.push(newCol)
+      // todo
     }
-    // editTask: (state, action) => {
-    //   const {
-    //     title,
-    //     status,
-    //     description,
-    //     subtasks,
-    //     prevColIndex,
-    //     newColIndex,
-    //     taskIndex,
-    //   } = action.payload;
-    //   const board = state.find((board) => board.isActive);
-    //   const column = board.columns.find((col, index) => index === prevColIndex);
-    //   const task = column.tasks.find((task, index) => index === taskIndex);
-    //   task.title = title;
-    //   task.status = status;
-    //   task.description = description;
-    //   task.subtasks = subtasks;
-    //   if (prevColIndex === newColIndex) return;
-    //   column.tasks = column.tasks.filter((task, index) => index !== taskIndex);
-    //   const newCol = board.columns.find((col, index) => index === newColIndex);
-    //   newCol.tasks.push(task);
-    // },
 
     // dragTask: (state, action) => {
     //   const { colIndex, prevColIndex, taskIndex } = action.payload;

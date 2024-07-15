@@ -103,7 +103,7 @@ function SingleTask(props) {
         <div>
           <div>
             <FontAwesomeIcon
-              color={props.singleTask.isVerified ? "green" : "grey"}
+              color={props.singleTask.isVerified ? "blue" : "grey"}
               icon={faCheckCircle}
               fontSize={15}
             />

@@ -122,7 +122,7 @@ function Form(props) {
               </div>
             ) : (
               <div onClick={handleIsVerified}>
-                <FontAwesomeIcon icon={faCircleCheck} color="green" />
+                <FontAwesomeIcon icon={faCircleCheck} color="blue" />
               </div>
             )}
           </div>
