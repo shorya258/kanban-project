@@ -1,25 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Header from "./Header";
 import { useSelector } from "react-redux";
 import Column from "./Column";
 import EmptyBoard from "./EmptyBoard";
-import data from "../data.json";
 function Dashboard() {
-
-  const [cols, setCols] = useState(data.columns);
-
   const [isBoardModalOpen, setIsBoardModalOpen] = useState(false);
+  
   const columns = useSelector((state) => {
     return state.columns;
   });
-
   return (
     <>
       <Header />
       <div >
         {/* COLUMNS SECTIONS */}
         {columns.length > 0 ? (
-          <div className="flex">
+          <div className="flex"  >
             {columns.map((col, index) => {
               return (
                 <div key={index} className="flex-row">

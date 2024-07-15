@@ -6,6 +6,7 @@ import {
   faStar,
   faSpinner,
   faCheckCircle,
+  faTrash,
 } from "@fortawesome/free-solid-svg-icons";
 import React, { useState } from "react";
 import columnsSlice from "../redux/columnSlice";
@@ -13,18 +14,25 @@ import Form from "./Form";
 import { useDispatch } from "react-redux";
 function Column(props) {
   const dispatch = useDispatch();
-  const [showDeleteModal, toggleShowDeleteModal] = useState(false);
+  const [showDeleteColumnModal, toggleShowDeleteColumnModal] = useState(false);
   const [showAddTaskModal, toggleShowAddTaskModal] = useState(false);
-
+  const [showDeleteTaskModal, toggleDeleteTaskModal] = useState(false);
+  const [showEditTaskForm, toggleShowEditTaskForm] = useState(false);
   const handleAddTask = () => {
     toggleShowAddTaskModal(!showAddTaskModal);
   };
 
   const deleteColumn = () => {
     dispatch(columnsSlice.actions.deleteColumn(props.colIndex));
-    toggleShowDeleteModal(false);
+    toggleShowDeleteColumnModal(false);
   };
 
+  const handleDeleteTask = () => {
+    toggleDeleteTaskModal(!showDeleteTaskModal);
+  };
+  const handleEditTask = (index) => {
+    console.log(index, "index clicked");
+  };
   return (
     <div className="flex flex-col my-2 ml-2">
       <div className="flex flex-row justify-between m-2 column-header font-bold">
@@ -43,14 +51,19 @@ function Column(props) {
 
         <div className="flex items-center">
           <div className="delete-column mr-6">
-            <button type="button" onClick={()=>(toggleShowDeleteModal(!showDeleteModal))}>
+            <button
+              type="button"
+              onClick={() =>
+                toggleShowDeleteColumnModal(!showDeleteColumnModal)
+              }
+            >
               <FontAwesomeIcon
                 color="gray"
                 icon={faEllipsisVertical}
                 rotation={90}
               />
             </button>
-            {showDeleteModal && (
+            {showDeleteColumnModal && (
               <div>
                 <button type="button" onClick={deleteColumn}>
                   Delete this column
@@ -80,12 +93,48 @@ function Column(props) {
           <div
             key={index}
             className="flex flex-col gap-x-2 gap-y-1 my-2 bg-white border-solid border-2 rounded-md border-grey p-2 "
+            onClick={() => handleEditTask(index)}
           >
+            {
+              // edit task modal
+              showEditTaskForm && (
+                <Form
+                  colIndex={props.colIndex}
+                  taskIndex={index}
+                  colName={props.singleColumn.name}
+                  handleAddTask={handleAddTask}
+                  taskDetails={singleTask}
+                />
+              )
+            }
             <div className="flex justify-between items-center">
               <div className="flex items-center gap-x-2 text-xs text-gray-600">
                 <p>#8735</p>
                 <FontAwesomeIcon icon={faCircle} color="gray" fontSize={3} />
                 <p>3 Jan, 4.35 PM</p>
+              </div>
+
+              <div>
+                <div onClick={handleDeleteTask}>
+                  <FontAwesomeIcon icon={faTrash} color="grey" />
+                </div>
+
+                {showDeleteTaskModal && (
+                  <div className="flex flex-col ">
+                    <div> Are you sure you want to delete this task? </div>
+                    <div className="flex flex-row">
+                      <div className="mx-3 my-2 p-2 bg-green-700 text-white rounded-md">
+                        Yes
+                      </div>
+                      <div
+                        className="mr-3 my-2 p-2 bg-red-600 text-white rounded-md"
+                        onClick={handleDeleteTask}
+                      >
+                        No
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
               <div>
                 <FontAwesomeIcon icon={faStar} fontSize={15} />
