@@ -3,8 +3,6 @@ import Form from "./Form";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircle } from "@fortawesome/free-regular-svg-icons";
 import {
-  faPlus,
-  faEllipsisVertical,
   faStar,
   faSpinner,
   faCheckCircle,
@@ -14,15 +12,38 @@ import {
 function SingleTask(props) {
   const [showDeleteTaskModal, toggleDeleteTaskModal] = useState(false);
   const [showEditTaskForm, toggleShowEditTaskForm] = useState(false);
+  const [dragging, setDragging] = useState(false);
   const handleDeleteTask = () => {
     toggleDeleteTaskModal(!showDeleteTaskModal);
   };
   const handleEditTask = () => {
     toggleShowEditTaskForm(!showEditTaskForm);
   };
-
+  const handleOnDrag = (e) => {
+    setDragging(true);
+    let taskIndex = props.id;
+    let colIndex = props.colIndex;
+    console.log("single task ", taskIndex, colIndex);
+    e.dataTransfer.setData(
+      'application/json',
+      JSON.stringify({ taskIndex, prevColIndex: colIndex })
+    );
+    // console.log()
+    console.log(e.dataTransfer.getData('application/json'));
+  };
   return (
-    <div className="flex flex-col gap-x-2 gap-y-1 my-2 bg-white border-solid border-2 rounded-md border-grey p-2 ">
+<div draggable='false'>
+<div
+      className="flex flex-col gap-x-2 gap-y-1 my-2 bg-white border-solid border-2 rounded-md border-grey p-2 "
+      draggable='true'
+      onDragStart={handleOnDrag}
+      style={{
+        width: '250px',
+        border: dragging ? '2px dashed #000' : '1px solid #000',
+        transition: 'background-color 0.2s, border 0.2s',
+        cursor: 'grab',
+      }}
+    >
       {
         // edit task modal
         showEditTaskForm && (
@@ -113,6 +134,8 @@ function SingleTask(props) {
         </div>
       </div>
     </div>
+</div>
+    
   );
 }
 

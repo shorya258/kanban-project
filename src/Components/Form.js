@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from "react";
-import columnsSlice from "../redux/columnSlice";
-import { useDispatch, useSelector } from "react-redux";
-import { faAngleUp, faCircleCheck, faCross, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faAngleUp, faCircleCheck, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircle } from "@fortawesome/free-regular-svg-icons";
 function Form(props) {
-  const dispatch = useDispatch();
   const [newTask, setNewTask] = useState({
     title: "",
     description: "",

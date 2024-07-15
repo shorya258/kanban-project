@@ -3,10 +3,6 @@ import {
   faPlus,
   faEllipsisVertical,
   faCircle,
-  faStar,
-  faSpinner,
-  faCheckCircle,
-  faTrash,
 } from "@fortawesome/free-solid-svg-icons";
 import React, { useState } from "react";
 import columnsSlice from "../redux/columnSlice";
@@ -39,9 +35,27 @@ function Column(props) {
     const colIndex = props.colIndex;
     dispatch(columnsSlice.actions.deleteTask({ colIndex, taskIndex }));
   };
-
+  const handleDragEnd = (e) => {
+    console.log(JSON.parse(e.dataTransfer.getData('application/json')))
+    const { prevColIndex, taskIndex } = JSON.parse(
+      e.dataTransfer.getData('application/json')
+    );
+    let colIndex=props.colIndex;
+    if (props.colIndex !== prevColIndex) {
+      dispatch(
+        columnsSlice.actions.dragTask({ colIndex, prevColIndex, taskIndex })
+      );
+    }
+  };
+  const handleDragOver = (e) => {
+    e.preventDefault();
+  };
   return (
-    <div className="flex flex-col my-2 ml-2">
+    <div
+      className="flex flex-col my-2 ml-2"
+      onDragOver={handleDragOver}
+      onDrop={handleDragEnd}
+    >
       <div className="flex flex-row justify-between m-2 column-header">
         <div className="flex flex-row items-center gap-2">
           <FontAwesomeIcon
@@ -101,6 +115,7 @@ function Column(props) {
           <SingleTask
             key={index}
             id={index}
+            colIndex={props.colIndex}
             singleTask={singleTask}
             deleteTask={deleteTask}
             editTask={editTask}
