@@ -10,12 +10,13 @@ import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import {useDispatch, useSelector } from "react-redux";
 import React from "react";
 import { setFilter } from "../redux/columnSlice";
-import { getStatusList } from "../redux/filterSelector";
+import { getAssignedList, getStatusList } from "../redux/filterSelector";
 
 function FilterHeader(props) {
   const dispatch = useDispatch();
   const sortOptions = useSelector((state) => state.sortOptions);
-  const assignedList = useSelector((state) => state.assignedList);
+  const assignedList = useSelector(getAssignedList);
+  console.log(assignedList, "assignedList");
   const severityList = useSelector((state) => state.severityList);
   const statusList = useSelector(getStatusList);
   console.log(statusList, "statusList");
@@ -40,6 +41,10 @@ function FilterHeader(props) {
   };
   const handleStatusChange = (statusValue) => {
     dispatch(setFilter({ filterType: 'statusFilter', value: statusValue}));
+  };
+  const handleAssignedChange = (assignedValue) => {
+    console.log(assignedValue, "assignedValue");
+    dispatch(setFilter({ filterType: 'assignedFilter', value: assignedValue}));
   };
   return (
     <div className="flex items-center gap-2 ml-4">
@@ -119,7 +124,7 @@ function FilterHeader(props) {
               <MenuItem
                 key={index}
                 className="py-1"
-                onClick={() => props.handleAssigned(index)}
+                onClick={() => handleAssignedChange(option)}
               >
                 <a
                   href="#"

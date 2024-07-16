@@ -5,16 +5,33 @@ const getSearchFilter = (state) => state.searchFilter;
 const getSortFilter = (state) => state.sortFilter;
 const getSeverityFilter = (state) => state.severityFilter;
 const getStatusFilter = (state) => state.statusFilter;
+const getAssignedFilter = (state) => state.assignedFilter;
 const getItems = (state) => state.columns;
-export const getStatusList = (state) => state.columns.map(column => column.name);
- // assuming you have an items array in your state
+export const getStatusList = (state) =>
+  state.columns.map((column) => column.name);
+
+export const getAssignedList = (state) => {
+  const assignedNamesList = [];
+  state.columns.forEach((column) =>
+    column.tasks.forEach((task) => assignedNamesList.push(task.assignedTo))
+  );
+  return [...new Set(assignedNamesList)];
+};
+// assuming you have an items array in your state
 
 export const getFilteredAndSortedItems = createSelector(
-  [getSearchFilter, getSortFilter, getSeverityFilter, getStatusFilter, getItems],
-  (searchFilter, sortFilter,severityFilter,statusFilter, columns) => {
+  [
+    getSearchFilter,
+    getSortFilter,
+    getSeverityFilter,
+    getStatusFilter,
+    getAssignedFilter,
+    getItems
+  ],
+  (searchFilter, sortFilter, severityFilter, statusFilter, assignedFilter, columns) => {
     let filteredColumns = columns;
 
-    if(statusFilter) {
+    if (statusFilter) {
       console.log(statusFilter, "statusFilter");
       filteredColumns = filteredColumns.filter((column) => {
         return column.name.toLowerCase() === statusFilter.toLowerCase();
@@ -22,7 +39,7 @@ export const getFilteredAndSortedItems = createSelector(
     }
     // Apply search filter
     if (searchFilter) {
-      filteredColumns = filteredColumns.map((column) => {
+      filteredColumns = filteredColumns?.map((column) => {
         console.log(column.tasks, "tasks");
         return {
           name: column.name,
@@ -33,19 +50,31 @@ export const getFilteredAndSortedItems = createSelector(
         };
       });
     }
-    if(severityFilter) {
+    if (severityFilter) {
       console.log(severityFilter, "severityFilter");
-      filteredColumns = filteredColumns.map((column) => {
+      filteredColumns = filteredColumns?.map((column) => {
         return {
           name: column.name,
           color: column.color,
-          tasks: column.tasks.filter((task) =>
-            task.label.toLowerCase() === severityFilter.toLowerCase()
+          tasks: column.tasks.filter(
+            (task) => task.label.toLowerCase() === severityFilter.toLowerCase()
           ),
         };
       });
     }
 
+    if (assignedFilter) {
+      console.log(assignedFilter, "assignedFilter");
+      filteredColumns = filteredColumns?.map((column) => {
+        return {
+          name: column.name,
+          color: column.color,
+          tasks: column.tasks.filter(
+            (task) => task.assignedTo.toLowerCase() === assignedFilter.toLowerCase()
+          ),
+        };
+      });
+    }
     console.log(filteredColumns, "filteredColumns");
 
     // Apply sort filter

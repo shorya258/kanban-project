@@ -2,6 +2,7 @@
   "searchFilter": "",
   "severityFilter": "",
   "statusFilter": "",
+  "assignedFilter": "",
   "sortFilter": "",
   "sortOptions": ["Date", "Ticket", "Story points"],
   "assignedList": ["Rohit", "Virat", "Dhoni"],

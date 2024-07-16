@@ -11,10 +11,6 @@ function Dashboard() {
   // const [isBoardModalOpen, setIsBoardModalOpen] = useState(false);
   const [showAddColModal, toggleAddColModal] = useState(false);
   const [newColName, setNewColName] = useState("");
-  const [sortIndex, setSortIndex] = useState("");
-  const [assignedIndex, setAssignedIndex] = useState("");
-  const [severityIndex, setSeverityIndex] = useState("");
-  const [statusIndex, setStatusIndex] = useState("");
   const dispatch = useDispatch();
   const columns = useSelector((state) => {
     return state.columns;
@@ -28,10 +24,6 @@ function Dashboard() {
     setNewColName("");
     toggleAddColModal(false);
   };
-
-  useEffect(() => {
-    console.log("use Called");
-  }, [sortIndex,assignedIndex,severityIndex,statusIndex]);
   return (
     <>
       <Header />
