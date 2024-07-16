@@ -16,13 +16,8 @@ function FilterHeader(props) {
   const dispatch = useDispatch();
   const sortOptions = useSelector((state) => state.sortOptions);
   const assignedList = useSelector(getAssignedList);
-  console.log(assignedList, "assignedList");
   const severityList = useSelector((state) => state.severityList);
   const statusList = useSelector(getStatusList);
-  console.log(statusList, "statusList");
-  console.log(useSelector((state) => {
-    return state.searchFilter;
-  }))
   const searchFilter = useSelector((state) => {
     return state.searchFilter;
   });

@@ -5,45 +5,44 @@ import {
   faCircle,
 } from "@fortawesome/free-solid-svg-icons";
 import React, { useState } from "react";
-import columnsSlice from "../redux/columnSlice";
 import Form from "./Form";
 import { useDispatch } from "react-redux";
 import SingleTask from "./SingleTask";
+import { addTask, deleteColumn, deleteTask, dragTask, editTask } from "../redux/columnSlice";
 function Column(props) {
   const dispatch = useDispatch();
   const [showDeleteColumnModal, toggleShowDeleteColumnModal] = useState(false);
   const [showAddTaskModal, toggleShowAddTaskModal] = useState(false);
-  const addTask = (newTask) => {
-    dispatch(columnsSlice.actions.addTask(newTask));
+  const addNewTask = (newTask) => {
+    dispatch(addTask(newTask));
     toggleShowAddTaskModal(false);
   };
   const handleAddTask = () => {
     toggleShowAddTaskModal(!showAddTaskModal);
   };
-  const deleteColumn = () => {
-    dispatch(columnsSlice.actions.deleteColumn(props.colIndex));
+  const handleDeleteColumn = () => {
+    dispatch(deleteColumn(props.colIndex));
     toggleShowDeleteColumnModal(false);
   };
 
-  const editTask = (updatedTask, taskIndex) => {
+  const handleEditTask = (updatedTask, taskIndex) => {
     const colIndex = props.colIndex;
     dispatch(
-      columnsSlice.actions.editTask({ colIndex, taskIndex, updatedTask })
+      editTask({ colIndex, taskIndex, updatedTask })
     );
   };
-  const deleteTask = (taskIndex) => {
+  const handleDeleteTask = (taskIndex) => {
     const colIndex = props.colIndex;
-    dispatch(columnsSlice.actions.deleteTask({ colIndex, taskIndex }));
+    dispatch(deleteTask({ colIndex, taskIndex }));
   };
   const handleDragEnd = (e) => {
-    console.log(JSON.parse(e.dataTransfer.getData('application/json')))
     const { prevColIndex, taskIndex } = JSON.parse(
       e.dataTransfer.getData('application/json')
     );
     let colIndex=props.colIndex;
     if (props.colIndex !== prevColIndex) {
       dispatch(
-        columnsSlice.actions.dragTask({ colIndex, prevColIndex, taskIndex })
+        dragTask({ colIndex, prevColIndex, taskIndex })
       );
     }
   };
@@ -85,7 +84,7 @@ function Column(props) {
             </button>
             {showDeleteColumnModal && (
               <div>
-                <button type="button" onClick={deleteColumn}>
+                <button type="button" onClick={handleDeleteColumn}>
                   Delete this column
                 </button>
               </div>
@@ -101,7 +100,7 @@ function Column(props) {
                 <Form
                   colIndex={props.colIndex}
                   colName={props.singleColumn.name}
-                  addTask={addTask}
+                  addTask={addNewTask}
                   actionType="add"
                   handleAddTask={handleAddTask}
                 />
@@ -117,8 +116,8 @@ function Column(props) {
             id={index}
             colIndex={props.colIndex}
             singleTask={singleTask}
-            deleteTask={deleteTask}
-            editTask={editTask}
+            deleteTask={handleDeleteTask}
+            editTask={handleEditTask}
           />
         ))}
       </div>

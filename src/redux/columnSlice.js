@@ -21,10 +21,6 @@ const columnsSlice = createSlice({
       };
       column.tasks.push(task);
     },
-    deleteColumn: (state, action) => {
-      const { newColIndex } = action.payload;
-      state.columns.splice(newColIndex, 1);
-    },
     editTask: (state, action) => {
       const { colIndex, taskIndex, updatedTask } = action.payload;
       const column = state.columns.find((col, index) => {
@@ -39,8 +35,14 @@ const columnsSlice = createSlice({
       const { colIndex, taskIndex } = action.payload;
       state.columns[colIndex].tasks.splice(taskIndex, 1);
     },
+    dragTask: (state, action) => {
+      const { colIndex, prevColIndex, taskIndex } = action.payload;
+      const prevCol = state.columns.find((col, i) => i === prevColIndex);
+      const task = prevCol.tasks.splice(taskIndex, 1)[0];
+      state.columns.find((col, i) => i === colIndex).tasks.push(task);
+    },
     addColumn: (state, action) => {
-      console.log(action.payload);
+      console.log(action.payload, "addColumn called");
       const colName = action.payload;
       const newCol = {
         name: colName,
@@ -49,23 +51,29 @@ const columnsSlice = createSlice({
       };
       state.columns.push(newCol);
     },
-
-    dragTask: (state, action) => {
-      const { colIndex, prevColIndex, taskIndex } = action.payload;
-      const prevCol = state.columns.find((col, i) => i === prevColIndex);
-      const task = prevCol.tasks.splice(taskIndex, 1)[0];
-      state.columns.find((col, i) => i === colIndex).tasks.push(task);
+    deleteColumn: (state, action) => {
+      const { newColIndex } = action.payload;
+      state.columns.splice(newColIndex, 1);
     },
+
     setFilter: (state, action) => {
       const { filterType, value } = action.payload;
       state[filterType] = value;
     },
     clearFilter(state, action) {
       const filterType = action.payload;
-      state[filterType] = '';
+      state[filterType] = "";
     },
   },
 });
-export const { setFilter, clearFilter } = columnsSlice.actions;
+export const {
+  addTask,
+  editTask,
+  deleteTask,
+  dragTask,
+  addColumn,
+  deleteColumn,
+  setFilter,
+  clearFilter,
+} = columnsSlice.actions;
 export default columnsSlice.reducer;
-
