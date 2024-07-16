@@ -4,18 +4,25 @@ import { createSelector } from "reselect";
 const getSearchFilter = (state) => state.searchFilter;
 const getSortFilter = (state) => state.sortFilter;
 const getSeverityFilter = (state) => state.severityFilter;
+const getStatusFilter = (state) => state.statusFilter;
 const getItems = (state) => state.columns;
-const getSeverityList = (state) => state.severityList;
+export const getStatusList = (state) => state.columns.map(column => column.name);
  // assuming you have an items array in your state
 
 export const getFilteredAndSortedItems = createSelector(
-  [getSearchFilter, getSortFilter, getSeverityFilter, getItems],
-  (searchFilter, sortFilter,severityFilter, columns) => {
-    console.log(columns, searchFilter);
+  [getSearchFilter, getSortFilter, getSeverityFilter, getStatusFilter, getItems],
+  (searchFilter, sortFilter,severityFilter,statusFilter, columns) => {
     let filteredColumns = columns;
+
+    if(statusFilter) {
+      console.log(statusFilter, "statusFilter");
+      filteredColumns = filteredColumns.filter((column) => {
+        return column.name.toLowerCase() === statusFilter.toLowerCase();
+      });
+    }
     // Apply search filter
     if (searchFilter) {
-      filteredColumns = columns.map((column) => {
+      filteredColumns = filteredColumns.map((column) => {
         console.log(column.tasks, "tasks");
         return {
           name: column.name,
@@ -28,7 +35,7 @@ export const getFilteredAndSortedItems = createSelector(
     }
     if(severityFilter) {
       console.log(severityFilter, "severityFilter");
-      filteredColumns = columns.map((column) => {
+      filteredColumns = filteredColumns.map((column) => {
         return {
           name: column.name,
           color: column.color,
@@ -38,6 +45,7 @@ export const getFilteredAndSortedItems = createSelector(
         };
       });
     }
+
     console.log(filteredColumns, "filteredColumns");
 
     // Apply sort filter

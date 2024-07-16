@@ -1,11 +1,11 @@
 {
   "searchFilter": "",
   "severityFilter": "",
+  "statusFilter": "",
   "sortFilter": "",
   "sortOptions": ["Date", "Ticket", "Story points"],
   "assignedList": ["Rohit", "Virat", "Dhoni"],
   "severityList": ["Low", "Medium", "Critical"],
-  "statusList": ["Todo", "Doing", "Done"],
   "columns": [
     {
       "name": "Todo",
