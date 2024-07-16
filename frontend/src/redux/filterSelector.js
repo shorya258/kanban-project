@@ -97,14 +97,30 @@ export const getFilteredAndSortedItems = createSelector(
           tasks: sortedTasks,
         };
       });
-    } else if (sortFilter === "desc") {
-      filteredColumns = filteredColumns.sort((a, b) =>
-        b.name.localeCompare(a.name)
-      );
-    } else if (sortFilter === "name") {
-      filteredColumns = filteredColumns.sort((a, b) =>
-        a.name.localeCompare(b.name)
-      );
+    } else if (sortFilter === "Ticket") {
+      filteredColumns = filteredColumns?.map((column) => {
+        let sortedTasks = Array.from(column.tasks);
+        sortedTasks.sort((task1, task2) => {
+          return parseInt(task1.ticketnum) - parseInt(task2.ticketnum)
+        })
+        return {
+          name: column.name,
+          color: column.color,
+          tasks: sortedTasks,
+        };
+      });
+    } else if (sortFilter === "Story points") {
+      filteredColumns = filteredColumns?.map((column) => {
+        let sortedTasks = Array.from(column.tasks);
+        sortedTasks.sort((task1, task2) => {
+          return parseInt(task1.storypts) - parseInt(task2.storypts)
+        })
+        return {
+          name: column.name,
+          color: column.color,
+          tasks: sortedTasks,
+        };
+      });
     }
     console.log(filteredColumns, "filteredColumns");
 
