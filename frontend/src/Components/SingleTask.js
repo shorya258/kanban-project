@@ -158,7 +158,8 @@ function SingleTask(props) {
             </div>
             <div className="flex items-center gap-x-1">
               <FontAwesomeIcon icon={faSpinner} fontSize={10} />
-              <p>4.5</p>
+              <p>{props.singleTask.storypts
+              }</p>
             </div>
           </div>
           <div>
