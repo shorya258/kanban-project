@@ -21,12 +21,6 @@ function FilterHeader(props) {
   const searchFilter = useSelector((state) => {
     return state.searchFilter;
   });
-  const severityFilter = useSelector((state) => {
-    return state.severityFilter;
-  });
-  const sortFilter = useSelector((state) => {
-    return state.sortFilter;
-  });
 
   const handleSearchChange = (e) => {
     dispatch(setFilter({ filterType: 'searchFilter', value: e.target.value }));
@@ -40,6 +34,10 @@ function FilterHeader(props) {
   const handleAssignedChange = (assignedValue) => {
     console.log(assignedValue, "assignedValue");
     dispatch(setFilter({ filterType: 'assignedFilter', value: assignedValue}));
+  };
+  const handleSortChange = (sortValue) => {
+    console.log(sortValue, "sortValue");
+    dispatch(setFilter({ filterType: 'sortFilter', value: sortValue}));
   };
   return (
     <div className="flex items-center gap-2 ml-4">
@@ -84,7 +82,7 @@ function FilterHeader(props) {
               <MenuItem
                 key={index}
                 className="py-1"
-                onClick={() => props.handleSort(index)}
+                onClick={() => handleSortChange(option)}
               >
                 <a
                   href="#"

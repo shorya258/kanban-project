@@ -26,9 +26,16 @@ export const getFilteredAndSortedItems = createSelector(
     getSeverityFilter,
     getStatusFilter,
     getAssignedFilter,
-    getItems
+    getItems,
   ],
-  (searchFilter, sortFilter, severityFilter, statusFilter, assignedFilter, columns) => {
+  (
+    searchFilter,
+    sortFilter,
+    severityFilter,
+    statusFilter,
+    assignedFilter,
+    columns
+  ) => {
     let filteredColumns = columns;
 
     if (statusFilter) {
@@ -64,24 +71,32 @@ export const getFilteredAndSortedItems = createSelector(
     }
 
     if (assignedFilter) {
-      console.log(assignedFilter, "assignedFilter");
       filteredColumns = filteredColumns?.map((column) => {
         return {
           name: column.name,
           color: column.color,
           tasks: column.tasks.filter(
-            (task) => task.assignedTo.toLowerCase() === assignedFilter.toLowerCase()
+            (task) =>
+              task.assignedTo.toLowerCase() === assignedFilter.toLowerCase()
           ),
         };
       });
     }
-    console.log(filteredColumns, "filteredColumns");
+
 
     // Apply sort filter
-    if (sortFilter === "asc") {
-      filteredColumns = filteredColumns.sort((a, b) =>
-        a.name.localeCompare(b.name)
-      );
+    if (sortFilter === "Date") {
+      filteredColumns = filteredColumns?.map((column) => {
+        let sortedTasks = Array.from(column.tasks);
+        sortedTasks.sort((task1, task2) => {
+          return new Date(task1.date) - new Date(task2.date)
+        })
+        return {
+          name: column.name,
+          color: column.color,
+          tasks: sortedTasks,
+        };
+      });
     } else if (sortFilter === "desc") {
       filteredColumns = filteredColumns.sort((a, b) =>
         b.name.localeCompare(a.name)
@@ -91,6 +106,7 @@ export const getFilteredAndSortedItems = createSelector(
         a.name.localeCompare(b.name)
       );
     }
+    console.log(filteredColumns, "filteredColumns");
 
     return filteredColumns;
   }
