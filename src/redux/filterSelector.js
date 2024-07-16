@@ -3,11 +3,14 @@ import { createSelector } from "reselect";
 
 const getSearchFilter = (state) => state.searchFilter;
 const getSortFilter = (state) => state.sortFilter;
-const getItems = (state) => state.columns; // assuming you have an items array in your state
+const getSeverityFilter = (state) => state.severityFilter;
+const getItems = (state) => state.columns;
+const getSeverityList = (state) => state.severityList;
+ // assuming you have an items array in your state
 
 export const getFilteredAndSortedItems = createSelector(
-  [getSearchFilter, getSortFilter, getItems],
-  (searchFilter, sortFilter, columns) => {
+  [getSearchFilter, getSortFilter, getSeverityFilter, getItems],
+  (searchFilter, sortFilter,severityFilter, columns) => {
     console.log(columns, searchFilter);
     let filteredColumns = columns;
     // Apply search filter
@@ -19,6 +22,18 @@ export const getFilteredAndSortedItems = createSelector(
           color: column.color,
           tasks: column.tasks.filter((task) =>
             task.title.toLowerCase().includes(searchFilter.toLowerCase())
+          ),
+        };
+      });
+    }
+    if(severityFilter) {
+      console.log(severityFilter, "severityFilter");
+      filteredColumns = columns.map((column) => {
+        return {
+          name: column.name,
+          color: column.color,
+          tasks: column.tasks.filter((task) =>
+            task.label.toLowerCase() === severityFilter.toLowerCase()
           ),
         };
       });

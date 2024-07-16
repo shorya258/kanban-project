@@ -1,5 +1,6 @@
 {
   "searchFilter": "",
+  "severityFilter": "",
   "sortFilter": "",
   "sortOptions": ["Date", "Ticket", "Story points"],
   "assignedList": ["Rohit", "Virat", "Dhoni"],
@@ -39,7 +40,7 @@
           "title": "Build UI for search",
           "description": "Build UI for search",
           "status": "Todo",
-          "label": "Moderate",
+          "label": "Medium",
           "isVerified": true,
           "date":"2022-03-13",  
           "ticketnum": "6915",
